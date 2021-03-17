@@ -53,6 +53,61 @@ In Laravel the CONTROLLER is located in /App/Http/Controllers and in the Control
 The views are located in /resources/views and there can be found the all the VIEWS. Most of the time for these views is used a "template engine" which in Laravel is Blade. To create a view just use the extension .blade.php
 
 ----
+## Installation (WSL2)
+
+To install Laravel first we have to update and upgrade the system.
+```bash
+sudo apt update && sudo apt dist-upgrade
+```
+
+And then, if we don't have installed Composer, we do by using:
+```bash
+sudo apt install composer
+```
+**Composer** is an application-level package manager for the PHP programming language that provides a standard format for managing dependencies of PHP software and required libraries. Also, by installing Composer we will be installing PHP-cli and most of the necessary PHP packages, so we don't have to do it manually.
+Also important, Composer is **not** a package manager in the same sense as Yum or Apt are. Yes, it deals with "packages" or libraries, but it manages them on a per-project basis, installing them in a directory (e.g. `vendor`) inside your project. By default, it does not install anything globally. Thus, it is a dependency manager. It does however support a "global" project for convenience via the global command. ([more info](https://getcomposer.org/doc/00-intro.md#dependency-management))
+
+The next step is intalling Laravel, but first we have to be sure to have installed `ext-zip` which is part of the `php-zip` extension and which is also a requirement for Laravel. 
+```bash
+sudo apt install php-zip
+```
+
+Now we can install Laravel. If anything else is required simply install the extension/s required.
+```bash
+composer global require laravel/installer
+```
+
+If we run `laravel` on the command line, it probably won't work. So we have to correct the path. In the case of GNU / Linux Distributions, the location is `$HOME/.config/composer/vendor/bin` or `$HOME/.composer/vendor/bin`. So if we enter to that location.
+```bash
+cd .config/composer/vendor/bin
+```
+
+Then we should be able to run those binaries.
+```bash
+./laravel
+```
+
+So now we need to add that path to the `$PATH` variable so that it is executable out of the directory, which we can do by running the command:
+```bash
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+```
+
+When we exit this directory we can now run the `laravel` command. However, this can only be done in the current terminal. If we close it and open a new one it will no longer work. So if we want this to be done every time we open a terminal, we must add it to the `.bashrc` file.
+```bash
+# Placing Composer's directory in $PATH
+export PATH=$HOME/.config/composer/vendor/bin:$PATH
+```
+
+At this point if you want to run `laravel new blog`, you will possibly receive some errors, because of missing extensions. Commonly you can fix that by installin `php-mbstring` and `php-xml` (where the `ext-dom` extension is also contained):
+```bash
+sudo apt install php-mbstring php-xml
+```
+
+Now we remove the directory `blog` (the previously failed Laravel project), with `rm blog/ -R` and then finally we can successfylly run the command to create a new Laravel project.
+```bash
+laravel new blog
+```
+
 ## Using Laravel
 To iniate a Laravel project
 ```bash
